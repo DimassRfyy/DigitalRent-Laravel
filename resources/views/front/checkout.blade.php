@@ -130,7 +130,7 @@
                 <h2 class="font-semibold text-lg leading-[27px]">Confirm Payment</h2>
                 <div class="flex flex-col gap-2">
                     <label for="Proof" class="font-semibold">Upload Proof</label>
-                    <div class="group w-full rounded-2xl border border-[#EDEEF0] p-[18px_14px] flex items-center gap-3 relative transition-all duration-300 focus-within:ring-2 focus-within:ring-[#FCCF2F] relative">
+                    <div class="group w-full rounded-2xl border border-[#EDEEF0] p-[18px_14px] flex items-center gap-3 transition-all duration-300 focus-within:ring-2 focus-within:ring-[#FCCF2F] relative">
                         <div class="w-6 h-6 flex shrink-0">
                         <img src="{{ asset('assets/images/icons/note-add.svg') }}" alt="icon">
                         </div>
