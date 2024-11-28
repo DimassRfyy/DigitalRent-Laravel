@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -26,6 +27,25 @@ class Product extends Model
     protected $casts = [
         'price' => MoneyCast::class,
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($product) {
+            foreach ($product->photos as $photo) {
+                Storage::delete($photo->photo);
+                $photo->delete();
+            }
+        });
+
+        static::updating(function ($product) {
+            foreach ($product->photos as $photo) {
+                Storage::delete($photo->photo);
+                $photo->delete();
+            }
+        });
+    }
 
     public function category(): BelongsTo
     {

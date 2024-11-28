@@ -74,6 +74,8 @@ class TransactionResource extends Resource
                     ->preload()
                     ->required(),
                 Forms\Components\FileUpload::make('proof')
+                    ->disk('public')
+                    ->directory('proofs')
                     ->required()
                     ->openable()
                     ->image(),  

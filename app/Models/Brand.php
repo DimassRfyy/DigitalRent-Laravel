@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Storage;
 
 class Brand extends Model
 {
@@ -16,6 +17,26 @@ class Brand extends Model
         'slug',
         'logo',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($brand) {
+            if ($brand->logo) {
+                Storage::delete($brand->logo);
+            }
+        });
+
+        static::updating(function ($brand) {
+            if ($brand->isDirty('logo')) {
+                $oldLogo = $brand->getOriginal('logo');
+                if ($oldLogo) {
+                    Storage::delete($oldLogo);
+                }
+            }
+        });
+    }
 
     public function BrandCategories(): HasMany
     {

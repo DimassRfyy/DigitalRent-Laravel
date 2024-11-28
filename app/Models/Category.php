@@ -7,16 +7,35 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-
+use Illuminate\Support\Facades\Storage;
 
 class Category extends Model
 {
     use HasFactory, SoftDeletes;
     protected $fillable = [
         'name',
-        'slug',
         'icon',
     ];
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($category) {
+            if ($category->icon) {
+                Storage::delete($category->icon);
+            }
+        });
+
+        static::updating(function ($category) {
+            if ($category->isDirty('icon')) {
+                $oldIcon = $category->getOriginal('icon');
+                if ($oldIcon) {
+                    Storage::delete($oldIcon);
+                }
+            }
+        });
+    }
 
     public function BrandCategories (): HasMany
     {

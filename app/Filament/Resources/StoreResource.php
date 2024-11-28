@@ -29,6 +29,8 @@ class StoreResource extends Resource
                     ->required()
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('thumbnail')
+                    ->disk('public')
+                    ->directory('stores')
                     ->required()
                     ->image(),
                 Forms\Components\Textarea::make('addres')

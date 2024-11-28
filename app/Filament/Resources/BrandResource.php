@@ -32,6 +32,8 @@ class BrandResource extends Resource
                     ->maxLength(255),
                 Forms\Components\FileUpload::make('logo')
                     ->required()
+                    ->disk('public')
+                    ->directory('brands')
                     ->image(),
 
                     Repeater::make('brandCategories')
